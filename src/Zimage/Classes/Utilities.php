@@ -1,8 +1,8 @@
 <?php
 
-namespace Zimage\Classes;
+    namespace Zimage\Classes;
 
-class Utilities
-{
+    class Utilities
+    {
 
-}
+    }

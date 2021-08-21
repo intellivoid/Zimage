@@ -7,7 +7,20 @@
         "organization": "Intellivoid Technologies",
         "description": "A JPEG Based image file format used to store multiple resolutions of an image using ZiProto",
         "url": "https://github.com/intellivoid/Zimage",
-        "dependencies": [],
+        "dependencies": [
+            {
+                "package": "net.intellivoid.tmpfile",
+                "version": "latest",
+                "source": "default@github/intellivoid/TmpFile",
+                "required": true
+            },
+            {
+                "package": "net.intellivoid.ziproto",
+                "version": "latest",
+                "source": "default@github/intellivoid/ZiProto",
+                "required": true
+            }
+        ],
         "configuration": {
             "autoload_method": "generated_spl",
             "main": null,
@@ -22,7 +35,43 @@
         },
         {
             "required": true,
+            "file": "Classes/Converter.php"
+        },
+        {
+            "required": true,
+            "file": "Classes/Utilities.php"
+        },
+        {
+            "required": true,
+            "file": "Exceptions/InvalidZimageFileException.php"
+        },
+        {
+            "required": true,
+            "file": "Exceptions/CannotGetOriginalImageException.php"
+        },
+        {
+            "required": true,
+            "file": "Exceptions/CannotRemoveOriginalImageSizeException.php"
+        },
+        {
+            "required": true,
+            "file": "Exceptions/FileNotFoundException.php"
+        },
+        {
+            "required": true,
+            "file": "Exceptions/SizeNotSetException.php"
+        },
+        {
+            "required": true,
+            "file": "Exceptions/UnsupportedImageTypeException.php"
+        },
+        {
+            "required": true,
             "file": "Objects/Size.php"
+        },
+        {
+            "required": true,
+            "file": "Objects/Image.php"
         }
     ],
     "files": [
