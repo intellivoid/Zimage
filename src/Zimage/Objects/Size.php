@@ -19,11 +19,32 @@
         private $Width;
 
         /**
+         * Public Constructor
+         *
+         * @param string|null $input
+         */
+        public function __construct(?string $input=null)
+        {
+            $this->Height = 0;
+            $this->Width = 0;
+
+            if($input !== null)
+            {
+                $exploded = explode('x', $input);
+                if(count($exploded) == 2 && is_numeric($exploded[0]) && is_numeric($exploded[1]))
+                {
+                    $this->Width = $exploded[0];
+                    $this->Height = $exploded[1];
+                }
+            }
+        }
+
+        /**
          * @return string
          */
         public function __toString()
         {
-            return $this->Width . ", " . $this->Height;
+            return $this->Width . 'x' . $this->Height;
         }
 
         /**
