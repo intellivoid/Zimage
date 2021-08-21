@@ -19,7 +19,13 @@
         {
             "required": true,
             "file": "Zimage.php"
+        },
+        {
+            "required": true,
+            "file": "Objects/Size.php"
         }
     ],
-    "files": []
+    "files": [
+        "package.json"
+    ]
 }

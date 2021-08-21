@@ -1,8 +1,15 @@
 <?php
 
-namespace Zimage;
+    namespace Zimage;
 
-class Zimage
-{
+    class Zimage
+    {
+        private $original_size;
 
-}
+        private $sizes;
+
+        public function __construct()
+        {
+
+        }
+    }
