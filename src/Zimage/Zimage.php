@@ -284,10 +284,10 @@
                 throw new InvalidZimageFileException('The given input is not a valid Zimage file format.');
 
             $zimage_object = new Zimage();
-            $zimage_object->original_size = new Size($decoded_data[0x002]);
+            $zimage_object->original_size = new Size($decoded_data[0x004]);
             $zimage_object->images = [];
 
-            foreach($decoded_data[0x004] as $datum)
+            foreach($decoded_data[0x005] as $datum)
                 $zimage_object->images[] = Image::fromArray($datum);
 
             return $zimage_object;
