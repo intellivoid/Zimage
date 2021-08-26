@@ -3,6 +3,8 @@
     namespace Zimage\Classes;
 
 
+    use Imagick;
+    use ImagickException;
     use TmpFile\TmpFile;
     use Zimage\Exceptions\FileNotFoundException;
     use Zimage\Exceptions\UnsupportedImageTypeException;
@@ -42,6 +44,7 @@
             $temporary_file = new TmpFile(null, '.zimage_tmp');
             imagejpeg($bg, $temporary_file->getFileName(), $quality);
             imagedestroy($bg);
+            self::removeExif($temporary_file->getFileName());
 
             return file_get_contents($temporary_file->getFileName());
         }
@@ -118,6 +121,7 @@
             $temporary_file = new TmpFile(null, '.zimage_tmp');
             imagejpeg($image_tmp,  $temporary_file->getFileName(), $quality);
             imagedestroy($image_tmp);
+            self::removeExif($temporary_file->getFileName());
 
             return file_get_contents($temporary_file->getFileName());
         }
@@ -180,47 +184,42 @@
          * Removes exif data from a jpeg file
          *
          * @param $file_path
-         * @return TmpFile
          */
-        public static function removeExif($file_path): string
+        public static function removeExif($file_path)
         {
-            // Open the input file for binary reading
-            $f1 = fopen($file_path, 'rb');
-            // Open the output file for binary writing
-            $f2 = fopen($file_path . '.tmp', 'wb');
-
-            // Find EXIF marker
-            while (($s = fread($f1, 2)))
+            if(class_exists('imagick'))
             {
-                $word = @unpack('ni', $s)['i'];
-                if ($word == 0xFFE1)
+                try
                 {
-                    // Read length (includes the word used for the length)
-                    $s = fread($f1, 2);
-                    $len = unpack('ni', $s)['i'];
-                    // Skip the EXIF info
-                    fread($f1, $len - 2);
-                    break;
+                    $image_file = new Imagick($file_path);
+
+
+                    // Preserve ICC profile and strip image
+                    $profiles = $image_file->getImageProfiles("icc", true);
+                    $image_file->stripImage();
+                    if(!empty($profiles))
+                        $image_file->profileImage('icc', $profiles['icc']);
+
+                    $image_file->commentImage('CREATOR: Zimage (JPEG Based) Multi-size image file encoded using ZiProto, created by Zi Xing Narrakas. Copyright Intellivoid Technologies');
                 }
-                else
+                catch (ImagickException $e)
                 {
-                    fwrite($f2, $s, 2);
+                    return;
                 }
+
+                try
+                {
+                    $image_file->setImageFormat("jpeg");
+                    $image_file->writeImage($file_path);
+                }
+                catch (ImagickException $e)
+                {
+                    return;
+                }
+
+                $image_file->clear();
+                $image_file->destroy();
             }
-
-            // Write the rest of the file
-            while (($s = fread($f1, 4096)))
-            {
-                fwrite($f2, $s, strlen($s));
-            }
-
-            fclose($f1);
-            fclose($f2);
-
-            unlink($file_path);
-            rename($file_path . '.tmp', $file_path);
-
-            return $file_path;
         }
 
     }
