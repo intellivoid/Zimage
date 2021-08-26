@@ -2,7 +2,7 @@
     "package": {
         "package_name": "net.intellivoid.zimage",
         "name": "Zimage",
-        "version": "1.0.0.1",
+        "version": "1.0.0.2",
         "author": "Zi Xing Narrakas",
         "organization": "Intellivoid Technologies",
         "description": "A JPEG Based image file format used to store multiple resolutions of an image using ZiProto",
