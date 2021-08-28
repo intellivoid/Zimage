@@ -39,10 +39,6 @@
         },
         {
             "required": true,
-            "file": "Classes/Utilities.php"
-        },
-        {
-            "required": true,
             "file": "Exceptions/InvalidZimageFileException.php"
         },
         {
