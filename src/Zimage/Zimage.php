@@ -325,4 +325,12 @@
             $this->compression_level = $compression_level;
         }
 
+        /**
+         * @param Image[] $images
+         */
+        public function setImages(array $images): void
+        {
+            $this->images = $images;
+        }
+
     }
